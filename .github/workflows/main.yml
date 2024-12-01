@@ -1,14 +1,15 @@
-name: Run Python Script
+name: Scrape Business Types
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch: # Allows manual trigger from the GitHub UI
+  workflow_dispatch:
 
 jobs:
   run-script:
     runs-on: ubuntu-latest
+    timeout-minutes: 500  # Increase timeout to 500 minutes
 
     steps:
     # Step 1: Check out the repository
@@ -19,7 +20,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.9'  # Use a compatible Python version
+        python-version: '3.9'
 
     # Step 3: Install dependencies
     - name: Install dependencies
@@ -28,12 +29,12 @@ jobs:
         pip install beautifulsoup4 pandas requests
 
     # Step 4: Run the Python script
-    - name: Run script
+    - name: Run scraping script
       run: python hi12.py
 
-    # Step 5: Upload the output CSV (Optional)
+    # Step 5: Upload output CSV
     - name: Upload output CSV
       uses: actions/upload-artifact@v3
       with:
-        name: output-csv
+        name: scraped-business-types
         path: S_GROUP_with_business_type.csv
